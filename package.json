@@ -1,0 +1,22 @@
+{
+  "name": "t3n-invoice-clerk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Enterprise vendor invoice intake agent on Terminal 3 (T3N). Ledger lines only — never payment authority. Testnet, free-token path.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "quickstart": "tsx src/quickstart.ts",
+    "check:card": "node --input-type=module -e \"import {statSync} from 'node:fs'; const n=statSync('src/agent/agent-card.json').size; if(n>16384){console.error('agent-card.json is '+n+' bytes (limit 16 KiB)'); process.exit(1);} console.log('agent-card.json '+n+' bytes (<16 KiB)');\""
+  },
+  "dependencies": {
+    "@terminal3/t3n-sdk": "^5.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
