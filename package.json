@@ -14,7 +14,7 @@
     "ci": "npm run typecheck && npm run check:card"
   },
   "dependencies": {
-    "@terminal3/t3n-sdk": "^5.11.0"
+    "@terminal3/t3n-sdk": "^5.14.0"
   },
   "devDependencies": {
     "@types/node": "^24.3.1",

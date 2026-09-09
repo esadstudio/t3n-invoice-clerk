@@ -31,11 +31,23 @@ const T3N_API_KEY = process.env.T3N_API_KEY!;
 const wasmComponent = await loadWasmComponent(); // all crypto runs inside this component
 const address = eth_get_address(T3N_API_KEY);
 
+// Official default: verify the operator-signed testnet manifest.
+// Escape hatch is explicit T3N_UNSAFE_TRUST=1 only — never a silent fallback.
+// See https://docs.terminal3.io/developers/adk/tips/verify-trust-anchor
+const unsafeTrust = process.env.T3N_UNSAFE_TRUST === "1";
+if (unsafeTrust) {
+  console.warn(
+    "WARNING: T3N_UNSAFE_TRUST=1 — trustAnchor is { unsafe_trust_server: true }. No operator-signed manifest check. Local/debug only. Never default. Never use in CI or production.",
+  );
+}
+
 const t3n = new T3nClient({
   // Verifies you're really talking to a genuine T3N enclave, not just
   // whatever the server claims — see "Verify the trust anchor" below.
   // Node URL comes from setEnvironment above.
-  trustAnchor: await fetchTrustedManifest("testnet"),
+  trustAnchor: unsafeTrust
+    ? { unsafe_trust_server: true }
+    : await fetchTrustedManifest("testnet"),
   wasmComponent,
   handlers: {
     EthSign: metamask_sign(address, undefined, T3N_API_KEY),

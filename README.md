@@ -34,6 +34,8 @@ npx tsx src/quickstart.ts
 
 That script is the official Quickstart: `setEnvironment("testnet")`, `loadWasmComponent`, `fetchTrustedManifest("testnet")`, `eth_get_address`, `metamask_sign`, handshake, authenticate.
 
+If `fetchTrustedManifest` throws `Trust manifest … is malformed` (SDK schema vs current testnet body — see [docs/BUGS.md](docs/BUGS.md)), local/debug only: add `T3N_UNSAFE_TRUST=1` to `.env`. Default stays the official verified manifest. Never set this in CI.
+
 ### 4. Register the agent (optional)
 
 Same key. Checklist: [`src/register-agent.md`](src/register-agent.md) — `whoami`, `create-card`, `host-card --env testnet`.
