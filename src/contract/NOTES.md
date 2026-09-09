@@ -35,7 +35,7 @@ Re-register at the same tail requires a **higher** `version`. Keep every `contra
 
 [Invoke your TEE contract](https://docs.terminal3.io/developers/adk/get-started/walkthrough/invoke-contract) uses `T3nClient.executeAndDecode` with `contract_id` = `z:<tid>:invoice-ledger` and `function_name` `record-line` / `get-line`.
 
-This repo aliases `T3N_AGENT_KEY` to `T3N_API_KEY`. Official samples name a separate `AGENT_KEY`; do not claim a second key for this challenge.
+This repo treats `AGENT_KEY` as the same value as `T3N_API_KEY` (local `.env`). Official samples name a separate agent key; do not claim a second key for this challenge.
 
 This stub has **no outbound HTTP**, so a user egress grant is not required for record/get. If you later add `http`, the **data owner** must sign `member-delegation-update` with `allowed_hosts` — the contract cannot authorize its own egress.
 

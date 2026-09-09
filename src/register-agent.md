@@ -2,7 +2,7 @@
 
 Official guide: [Register a Public Agent](https://docs.terminal3.io/developers/agents/register-agent).
 
-This project uses **one API key** for both tenant handshake and agent CLI. Do not claim a second key. `T3N_API_KEY` and `T3N_AGENT_KEY` are the same value.
+This project uses **one API key** for both tenant handshake and agent CLI. Do not claim a second key. `T3N_API_KEY` and `AGENT_KEY` are the same value (put them in a local `.env`, never commit it).
 
 The DID printed by `whoami` is for the Superteam Earn form later. It is not required to install, build, or run `src/quickstart.ts`.
 
@@ -10,12 +10,12 @@ The DID printed by `whoami` is for the Superteam Earn form later. It is not requ
 
 ```bash
 # Claim once: https://go.terminal3.io/adk-community
+# Or load from local .env (D:\DEV\t3n-invoice-clerk\.env) — never commit it
 export T3N_API_KEY="<the key from the claim page>"
-export T3N_AGENT_KEY="$T3N_API_KEY"   # same as T3N_API_KEY
-# AGENT_KEY is another alias some samples use — also the same value if set
+export AGENT_KEY="$T3N_API_KEY"   # same as T3N_API_KEY
 ```
 
-The CLI that ships with `@terminal3/t3n-sdk` reads `T3N_API_KEY` (or `--api-key`). It never needs a separate `AGENT_KEY` in this repo.
+The CLI that ships with `@terminal3/t3n-sdk` reads `T3N_API_KEY` (or `--api-key`). `AGENT_KEY` is the same value.
 
 ## 1. Confirm identity (testnet)
 

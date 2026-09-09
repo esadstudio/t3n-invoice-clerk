@@ -9,14 +9,21 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
 ## 5-minute path (operator)
 
 1. Claim **once**: https://go.terminal3.io/adk-community (key shown once).
-2. In the same terminal:
+2. Put the **same** claim key in a local `.env` (Windows: `D:\DEV\t3n-invoice-clerk\.env`):
+
+   ```
+   T3N_API_KEY=
+   AGENT_KEY=
+   ```
+
+   Never commit `.env`. Then:
 
    ```bash
-   export T3N_API_KEY="<claim key>"
-   export T3N_AGENT_KEY="$T3N_API_KEY"
    npm install
    npx tsx src/quickstart.ts
    ```
+
+   CI must **not** run Quickstart (no live T3N handshake). Use `npm run typecheck` / `npm run ci`.
 
 3. Expect `Connected as: did:t3n:…`.
 4. Optional: follow `src/register-agent.md` (whoami → create-card → host-card `--env testnet`).
@@ -30,7 +37,7 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
 | `src/register-agent.md` | CLI checklist, same key |
 | `src/agent/agent-card.json` | ERC-8004 card (&lt;16 KiB) |
 | `src/contract/` | Invoice ledger TEE stubs + notes |
-| `.env.example` | `T3N_API_KEY`, `T3N_AGENT_KEY` (same), optional `T3N_DID` |
+| `.env.example` | `T3N_API_KEY=` and `AGENT_KEY=` (same value). No secrets. |
 | `docs/GOOGLE-DOC-OUTLINE.md` | Earn write-up skeleton |
 | `docs/BUGS.md` | Pitfalls |
 
@@ -44,7 +51,7 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
 
 ## Hard rules
 
-- Never commit `.env`, keys, or WASM cache
+- Never commit `.env`, `*.pem`, keys, or WASM cache
 - No buy, no production, no payment authority
 - Do not invent T3N APIs — [llms.txt](https://docs.terminal3.io/llms.txt) and [Reference](https://docs.terminal3.io/developers/adk/reference)
 - Developer Telegram: https://t.me/terminal3developer — `devrel@terminal3.io`

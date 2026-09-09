@@ -6,7 +6,7 @@ Checked against official Terminal 3 docs and this scaffold. Say so plainly when 
 
 | Item | Notes |
 | --- | --- |
-| One key | Official [Register a Public Agent](https://docs.terminal3.io/developers/agents/register-agent) and [Invoke](https://docs.terminal3.io/developers/adk/get-started/walkthrough/invoke-contract) describe a **separate** agent key with its own credits. CEO lock: `T3N_API_KEY` and `T3N_AGENT_KEY` are the **same** value. Do not claim a second key. |
+| One key | Official [Register a Public Agent](https://docs.terminal3.io/developers/agents/register-agent) and [Invoke](https://docs.terminal3.io/developers/adk/get-started/walkthrough/invoke-contract) describe a **separate** agent key with its own credits. This repo: `T3N_API_KEY` and `AGENT_KEY` are the **same** value in a local `.env`. Do not claim a second key. Never commit `.env`. |
 | `InsufficientCreditError` | Metered calls charge the **calling** DID. With one key, tenant and agent are the same DID, so tenant test credits apply. A key generated outside the claim page starts at zero. |
 | Contract WASM not built | `src/contract/` is a walkthrough stub. `cargo build --target wasm32-wasip2` needs Rust + vendored `wit/deps/` from [Terminal-3/z-tenant-flight](https://github.com/Terminal-3/z-tenant-flight). Host interface versions in the public walkthrough (`@1.2.0` / `@2.2.0`) may differ from the reference repo (`@1.0.0` / `@2.1.0`) — vendor what the **target cluster** provides. |
 | `T3N_DID` unused at runtime | `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` is Earn-form documentation only. Quickstart always prints the session DID. |

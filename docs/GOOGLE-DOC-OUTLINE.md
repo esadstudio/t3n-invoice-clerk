@@ -22,7 +22,7 @@ A Terminal 3 testnet agent that records vendor invoice lines (amount, asset, pay
 | Field | Value |
 | --- | --- |
 | Tenant / agent DID | `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` |
-| Keys | One claim. `T3N_API_KEY` == `T3N_AGENT_KEY` |
+| Keys | One claim. `T3N_API_KEY` == `AGENT_KEY` (local `.env` only — not in git) |
 
 Do not put the API key in the Google Doc.
 
@@ -36,7 +36,7 @@ Do not put the API key in the Google Doc.
 
 ## Demo script (≤ 3 minutes)
 
-1. Claim page once → export `T3N_API_KEY` and `T3N_AGENT_KEY="$T3N_API_KEY"`.
+1. Claim page once → local `.env` with `T3N_API_KEY=` and `AGENT_KEY=` (same value). Never commit `.env`.
 2. `npm i` then `npx tsx src/quickstart.ts` → `Connected as: did:t3n:…`.
 3. Show agent card + register checklist (whoami / create-card / host-card testnet).
 4. Show contract stub: facts only, no payment, map `invoice-ledger`.

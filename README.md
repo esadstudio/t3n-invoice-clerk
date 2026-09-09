@@ -12,14 +12,16 @@ One claim. One key. The DID is for the Earn form later — not required to insta
 
 Open [https://go.terminal3.io/adk-community](https://go.terminal3.io/adk-community), sign in, copy the key (shown once).
 
-### 2. Export (same key, two names)
+### 2. Local `.env` (same key, two names)
 
-```bash
-export T3N_API_KEY="<the key from the claim page>"
-export T3N_AGENT_KEY="$T3N_API_KEY"   # same as T3N_API_KEY — alias for agent CLI
+Copy `.env.example` → `.env` (Windows: `D:\DEV\t3n-invoice-clerk\.env`). Fill both with the **same** claim key:
+
+```
+T3N_API_KEY=
+AGENT_KEY=
 ```
 
-Optional local file: copy `.env.example` → `.env` and fill `T3N_API_KEY` / `T3N_AGENT_KEY` with that **same** value. **Never commit `.env`.** Official docs still prefer exporting in the shell.
+**Never commit `.env` or `*.pem`.** `.gitignore` already excludes them. You can also `export` the same pair in the shell.
 
 ### 3. Install and connect
 
@@ -50,7 +52,8 @@ Not read by Quickstart. Runtime identity is whatever `authenticate` returns.
 ## Constraints
 
 - Testnet only. No production. No buy. No payments.
-- Never commit secrets, keys, or `.env`.
+- Never commit secrets, keys, `.env`, or `*.pem`.
+- CI is `npm ci` + typecheck + card-size only. Do **not** run Quickstart / live handshake in CI.
 - Plain Node + TypeScript (`"type": "module"`). Avoid Next/Vite for the SDK WASM.
 
 ## Docs

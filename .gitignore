@@ -1,4 +1,4 @@
-# Secrets — never commit
+# Secrets — never commit. Local keys live in .env (e.g. D:\DEV\t3n-invoice-clerk\.env).
 .env
 .env.*
 !.env.example

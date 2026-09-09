@@ -2,7 +2,7 @@
  * Official T3N Quickstart — https://docs.terminal3.io/developers/adk/get-started/quickstart
  *
  * One claim, one key. Tenant handshake uses T3N_API_KEY only.
- * Agent CLI aliases (T3N_AGENT_KEY / AGENT_KEY) are the same value.
+ * AGENT_KEY is the same value (local .env alias). Do not run this in CI.
  */
 import {
   T3nClient,
@@ -13,20 +13,14 @@ import {
   metamask_sign,
   createEthAuthInput,
 } from "@terminal3/t3n-sdk";
+import { aliasSingleKey, loadLocalEnv } from "./load-env.js";
 
-// Single-key path: read T3N_API_KEY; treat T3N_AGENT_KEY / AGENT_KEY as aliases.
-if (!process.env.T3N_API_KEY && process.env.T3N_AGENT_KEY) {
-  process.env.T3N_API_KEY = process.env.T3N_AGENT_KEY;
-}
-if (!process.env.T3N_API_KEY && process.env.AGENT_KEY) {
-  process.env.T3N_API_KEY = process.env.AGENT_KEY;
-}
-process.env.T3N_AGENT_KEY =
-  process.env.T3N_AGENT_KEY || process.env.AGENT_KEY || process.env.T3N_API_KEY;
+loadLocalEnv();
+aliasSingleKey();
 
 if (!process.env.T3N_API_KEY) {
   console.error(
-    "Export T3N_API_KEY from a single claim at https://go.terminal3.io/adk-community (shown once). T3N_AGENT_KEY is the same value — do not claim a second key.",
+    "Set T3N_API_KEY (and AGENT_KEY to the same value) in a local .env — never commit it. Claim once: https://go.terminal3.io/adk-community",
   );
   process.exit(1);
 }
