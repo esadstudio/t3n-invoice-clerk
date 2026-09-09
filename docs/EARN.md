@@ -2,7 +2,25 @@
 
 Listing: [T3N Agent Build Challenge](https://superteam.fun/earn/listing/t3n-agent-build-challenge/) (290 USDC, due 2026-09-16).
 
-**Do not Earn-submit yet.** Official trust path is the default (`fetchTrustedManifest("testnet")` on `@terminal3/t3n-sdk@5.2.0`). Do **not** rely on `T3N_UNSAFE_TRUST` for the submission.
+**Do not Earn-submit yet.**
+
+## Sponsor-known blocker
+
+Official `fetchTrustedManifest("testnet")` on `@terminal3/t3n-sdk` **5.14.0** throws:
+
+```
+Error: Trust manifest at https://cn-api.sg.testnet.t3n.terminal3.io/api/trust-manifest is malformed.
+```
+
+Cause: testnet JSON is missing **`rtmr1_allowlist`** (SDK 5.14.0 requires it). Not a bad key. **Do not pin an older SDK for Earn.**
+
+Local/demo only — not default, not CI — in `.env`:
+
+```
+T3N_UNSAFE_TRUST=1
+```
+
+Contact: [Telegram](https://t.me/terminal3developer) / `devrel@terminal3.io`. Full write-up: [BUGS.md](BUGS.md).
 
 ## Form fields
 
@@ -10,41 +28,30 @@ Listing: [T3N Agent Build Challenge](https://superteam.fun/earn/listing/t3n-agen
 | --- | --- |
 | GitHub | https://github.com/esadstudio/t3n-invoice-clerk |
 | PR | https://github.com/esadstudio/t3n-invoice-clerk/pull/1 |
-| `T3N_DID` (Earn form) | `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` |
-| Keys | One claim. `T3N_API_KEY` only. `AGENT_KEY` is the same value in local `.env` |
+| `T3N_DID` | `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` |
+| Keys | One claim. `T3N_API_KEY` == `AGENT_KEY` in local `.env` only |
 
-`T3N_DID` is optional in `.env.example` as a reminder for the form. Quickstart does **not** read it. Do not hardcode it into runtime as an identity or secret. Session DID from `authenticate()` / `whoami` is the live value.
+Never paste keys or `.env` into the Earn form or Google Doc. Session DID from `Connected as:` / `whoami` wins if it differs.
 
-Never paste `T3N_API_KEY` / `AGENT_KEY` / `.env` into the Earn form or Google Doc.
+## Local `.env` (not in git)
 
-## Official trust (Earn default)
-
-```bash
-npm install
-npm run check:trust
-# Official trust path OK
-npm run quickstart
-# Connected as: did:t3n:…
-```
-
-Pinned SDK **5.2.0** (exact). 5.3.0+ reject the live testnet manifest (missing `rtmr1_allowlist`). See [BUGS.md](BUGS.md). Use `npm exec -- t3n …` / `npm run whoami` — not `npx @terminal3/t3n-sdk`.
-
-`T3N_UNSAFE_TRUST=1` stays local/debug only. Not for Earn.
-
-## Local env (not in git)
-
-Windows: `D:\DEV\t3n-invoice-clerk\.env`
+`D:\DEV\t3n-invoice-clerk\.env`
 
 ```
 T3N_API_KEY=
 AGENT_KEY=
 T3N_DID=did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9
+T3N_UNSAFE_TRUST=1
 ```
 
-Leave `T3N_UNSAFE_TRUST` unset.
+Last line is the **workaround**, not the product default.
 
-## Screenshots
+## Demo commands (after workaround)
 
-Placeholders: [earn-screenshots/README.md](earn-screenshots/README.md). Paste into the Google Doc when captured.
+```bash
+npm install
+npx tsx src/quickstart.ts
+# Connected as: did:t3n:…
+```
 
-Write-up skeleton: [GOOGLE-DOC-OUTLINE.md](GOOGLE-DOC-OUTLINE.md).
+Then [src/register-agent.md](../src/register-agent.md). Screenshots: [earn-screenshots/README.md](earn-screenshots/README.md). Paste-ready write-up: [GOOGLE-DOC-OUTLINE.md](GOOGLE-DOC-OUTLINE.md).

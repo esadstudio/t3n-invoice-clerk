@@ -1,5 +1,4 @@
-# Install + typecheck + official trust-manifest fetch.
-# Do NOT run src/quickstart.ts — that is a live T3N handshake and needs a local key.
+# Install + typecheck + card size. No Quickstart, no trust-manifest fetch (sponsor bug).
 name: ci
 
 on:
@@ -20,4 +19,3 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run check:card
-      - run: npm run check:trust

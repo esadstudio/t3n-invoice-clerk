@@ -23,21 +23,20 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
 
    ```bash
    npm install
-   npm run check:trust
    npx tsx src/quickstart.ts
    ```
 
-   CI runs typecheck + card-size + official `check:trust` (public manifest only). Do **not** run Quickstart in CI. SDK is pinned to **5.2.0** so official trust works. Leave `T3N_UNSAFE_TRUST` unset for Earn. See [BUGS.md](BUGS.md).
+   Official `fetchTrustedManifest("testnet")` is a **sponsor bug** (missing `rtmr1_allowlist`). Local/demo: `T3N_UNSAFE_TRUST=1` in `.env` — not default, not CI. Do not pin an older SDK. See [BUGS.md](BUGS.md). CI is typecheck + card-size only.
 
-3. Expect `Connected as: did:t3n:…`.
-4. Agent card: [src/register-agent.md](../src/register-agent.md) — `npm run whoami` → create-card → host-card `--env testnet`. Use local `t3n`, not unpinned `npx @terminal3/t3n-sdk`.
-5. Earn form: paste `T3N_DID` `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` — see [EARN.md](EARN.md). Do **not** Earn-submit until official-trust screenshots exist.
+3. Expect `Connected as: did:t3n:…` (capture per [earn-screenshots/README.md](earn-screenshots/README.md)).
+4. Agent card: [src/register-agent.md](../src/register-agent.md).
+5. Earn form DID: `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9`. **Do not Earn-submit yet.**
 
 ## Files
 
 | Path | Role |
 | --- | --- |
-| `src/quickstart.ts` | Official tenant handshake |
+| `src/quickstart.ts` | Official tenant handshake; `T3N_UNSAFE_TRUST=1` hatch |
 | `src/register-agent.md` | CLI checklist, same key |
 | `src/agent/agent-card.json` | ERC-8004 card (&lt;16 KiB) |
 | `src/contract/` | Invoice ledger TEE stubs + notes |
