@@ -14,15 +14,15 @@ crate-type = ["cdylib", "lib"]
 
 [features]
 default = []
-# Enable only after vendoring Terminal-3/z-tenant-flight wit/deps/
-wit-guest = []
+# Enable only after vendoring Terminal-3/z-tenant-flight wit/deps/ and Rust ≥ 1.85.
+wit-guest = ["dep:wit-bindgen"]
 
 [dependencies]
-# wit-bindgen's macro generates the bindings from wit/ at compile time.
-wit-bindgen = { version = "0.49", default-features = false, features = ["macros", "realloc"] }
-serde = { version = "1.0", default-features = false, features = ["derive", "alloc"] }
-serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
-hex = { version = "0.4", default-features = false, features = ["alloc"] }
+# Optional — only the wasm32 Guest impl needs bindgen. Native tests stay on stable 1.83.
+wit-bindgen = { version = "0.49", optional = true, default-features = false, features = ["macros", "realloc"] }
+serde = { version = "1.0.210", default-features = false, features = ["derive", "alloc"] }
+serde_json = { version = "1.0.128", default-features = false, features = ["alloc"] }
+hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
 
 # Small, self-contained artifact — keeps registration under the size cap.
 [profile.release]

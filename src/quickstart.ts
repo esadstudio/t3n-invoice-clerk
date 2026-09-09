@@ -24,6 +24,13 @@ if (!process.env.T3N_API_KEY && process.env.AGENT_KEY) {
 process.env.T3N_AGENT_KEY =
   process.env.T3N_AGENT_KEY || process.env.AGENT_KEY || process.env.T3N_API_KEY;
 
+if (!process.env.T3N_API_KEY) {
+  console.error(
+    "Export T3N_API_KEY from a single claim at https://go.terminal3.io/adk-community (shown once). T3N_AGENT_KEY is the same value — do not claim a second key.",
+  );
+  process.exit(1);
+}
+
 setEnvironment("testnet"); // the public SDK defaults to testnet — set it explicitly so your target cluster is unambiguous (and switch to "production" when you go live)
 
 const T3N_API_KEY = process.env.T3N_API_KEY!;
