@@ -19,9 +19,10 @@ Copy `.env.example` → `.env` (Windows: `D:\DEV\t3n-invoice-clerk\.env`). Fill 
 ```
 T3N_API_KEY=
 AGENT_KEY=
+T3N_DID=did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9
 ```
 
-**Never commit `.env` or `*.pem`.** `.gitignore` already excludes them. You can also `export` the same pair in the shell.
+`T3N_DID` is optional (Earn form reminder). Quickstart does not read it. **Never commit `.env` or `*.pem`.** `.gitignore` already excludes them. You can also `export` `T3N_API_KEY` / `AGENT_KEY` in the shell.
 
 ### 3. Install and connect
 
@@ -45,9 +46,9 @@ Invoice facts under `z:<tid>:invoice-ledger` (amount, asset, payee, due date, so
 
 ## Earn-form DID (documentation only)
 
-`did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9`
+`T3N_DID=did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9`
 
-Not read by Quickstart. Runtime identity is whatever `authenticate` returns.
+Documented in `.env.example` and [docs/EARN.md](docs/EARN.md). Not a runtime secret. Quickstart identity is whatever `authenticate` returns.
 
 ## Constraints
 
@@ -58,6 +59,7 @@ Not read by Quickstart. Runtime identity is whatever `authenticate` returns.
 
 ## Docs
 
+- [Earn form notes](docs/EARN.md)
 - [Google Doc outline](docs/GOOGLE-DOC-OUTLINE.md)
 - [Bugs / pitfalls](docs/BUGS.md)
 - [Handover](docs/HANDOVER.md)

@@ -21,7 +21,7 @@ A Terminal 3 testnet agent that records vendor invoice lines (amount, asset, pay
 
 | Field | Value |
 | --- | --- |
-| Tenant / agent DID | `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` |
+| `T3N_DID` (Earn form) | `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` |
 | Keys | One claim. `T3N_API_KEY` == `AGENT_KEY` (local `.env` only — not in git) |
 
 Do not put the API key in the Google Doc.

@@ -26,7 +26,7 @@ npx @terminal3/t3n-sdk whoami --env testnet
 export AGENT_DID="$(npx @terminal3/t3n-sdk whoami --env testnet)"
 ```
 
-Always read the DID back from `whoami`. Never hard-code or derive it from the key. The Earn-form DID for this tenant (documentation only) is `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9`.
+Always read the DID back from `whoami`. Never hard-code or derive it from the key. Optional Earn-form reminder (`T3N_DID`, not used at runtime): `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` — see [docs/EARN.md](../docs/EARN.md).
 
 ## 2. Scaffold / edit the card
 

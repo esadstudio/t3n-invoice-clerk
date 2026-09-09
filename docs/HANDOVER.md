@@ -14,7 +14,10 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
    ```
    T3N_API_KEY=
    AGENT_KEY=
+   T3N_DID=did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9
    ```
+
+   `T3N_DID` is optional (Earn form). Leave the two key lines empty in git; fill keys only in local `.env`.
 
    Never commit `.env`. Then:
 
@@ -27,7 +30,7 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
 
 3. Expect `Connected as: did:t3n:…`.
 4. Optional: follow `src/register-agent.md` (whoami → create-card → host-card `--env testnet`).
-5. Earn form DID (do not require in code): `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9`.
+5. Earn form: paste `T3N_DID` `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` — see [docs/EARN.md](EARN.md). Do not require it in runtime code.
 
 ## Files
 
@@ -37,7 +40,8 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
 | `src/register-agent.md` | CLI checklist, same key |
 | `src/agent/agent-card.json` | ERC-8004 card (&lt;16 KiB) |
 | `src/contract/` | Invoice ledger TEE stubs + notes |
-| `.env.example` | `T3N_API_KEY=` and `AGENT_KEY=` (same value). No secrets. |
+| `.env.example` | Empty `T3N_API_KEY=` / `AGENT_KEY=`. Optional `T3N_DID=` (Earn form, not a secret). |
+| `docs/EARN.md` | Earn form DID + listing notes |
 | `docs/GOOGLE-DOC-OUTLINE.md` | Earn write-up skeleton |
 | `docs/BUGS.md` | Pitfalls |
 
