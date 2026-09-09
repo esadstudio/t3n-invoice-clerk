@@ -1,0 +1,29 @@
+# Secrets — never commit. Local keys live in .env (e.g. D:\DEV\t3n-invoice-clerk\.env).
+.env
+.env.*
+!.env.example
+
+# Keys and local credentials
+keys/
+*.pem
+*.key
+id_ed25519
+id_rsa
+
+# WASM / T3N client cache
+target/
+*.wasm
+.t3n-wasm-cache/
+.t3n/
+.cache/
+
+# Node
+node_modules/
+dist/
+npm-debug.log*
+.npm/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

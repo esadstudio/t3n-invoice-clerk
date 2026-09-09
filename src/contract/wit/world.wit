@@ -1,0 +1,38 @@
+// Invoice Clerk ledger world — stub.
+// Host interface versions match the official walkthrough:
+// https://docs.terminal3.io/developers/adk/get-started/walkthrough/write-contract
+//
+// Vendor the matching packages from Terminal-3/z-tenant-flight (wit/deps/)
+// before `cargo build`. Do not invent host ABI.
+//
+// Capabilities = these imports only. No http, no outbox, no ap2, no signing.
+
+package z:invoice-ledger@0.1.0;
+
+world invoice-ledger {
+  import host:tenant/tenant-context@1.2.0;
+  import host:interfaces/logging@2.2.0;
+  import host:interfaces/kv-store@2.2.0;
+
+  export contracts;
+}
+
+interface contracts {
+  // Uniform 3-field envelope used by every node-callable contract.
+  //   input        — JSON arguments for this function, as bytes
+  //   user-profile — None for tenant contracts (profile is resolved host-side)
+  //   context      — node-minted DynamicContext (trusted), as bytes
+  record generic-input {
+    input:        option<list<u8>>,
+    user-profile: option<list<u8>>,
+    context:      option<list<u8>>,
+  }
+
+  // Persist one invoice ledger line (facts only — not a payment).
+  // Input JSON: { id, amount, asset, payee, due_date, source_ref }
+  record-line: func(req: generic-input) -> result<list<u8>, string>;
+
+  // Read one line by id from z:<tid>:invoice-ledger.
+  // Input JSON: { id }
+  get-line: func(req: generic-input) -> result<list<u8>, string>;
+}

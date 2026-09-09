@@ -1,0 +1,32 @@
+[package]
+name = "z-invoice-ledger"
+version = "0.1.0"
+edition = "2021"
+description = "T3N TEE stub: invoice ledger facts only (amount, asset, payee, due date, source ref). No payment authority."
+publish = false
+
+# crate-type cdylib is what makes the wasm32-wasip2 target emit a WASM
+# *component* (not a bare module). Keep "lib" too so the business logic
+# stays unit-testable natively.
+# Source: https://docs.terminal3.io/developers/adk/get-started/walkthrough/write-contract
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[features]
+default = []
+# Enable only after vendoring Terminal-3/z-tenant-flight wit/deps/ and Rust ≥ 1.85.
+wit-guest = ["dep:wit-bindgen"]
+
+[dependencies]
+# Optional — only the wasm32 Guest impl needs bindgen. Native tests stay on stable 1.83.
+wit-bindgen = { version = "0.49", optional = true, default-features = false, features = ["macros", "realloc"] }
+serde = { version = "1.0.210", default-features = false, features = ["derive", "alloc"] }
+serde_json = { version = "1.0.128", default-features = false, features = ["alloc"] }
+hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
+
+# Small, self-contained artifact — keeps registration under the size cap.
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true

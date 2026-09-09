@@ -1,0 +1,21 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Invoice Clerk",
+  "description": "Enterprise vendor invoice intake on Terminal 3 (T3N). Records ledger facts only — amount, asset, payee, due date, source ref — under z:<tid>:invoice-ledger. Never payment authority. Testnet / free-token path.",
+  "services": [
+    {
+      "name": "A2A",
+      "endpoint": "https://REPLACE_WITH_PUBLIC_HOST/.well-known/agent-card.json",
+      "version": "0.3.0"
+    },
+    {
+      "name": "DID",
+      "endpoint": "did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9",
+      "version": "v1"
+    }
+  ],
+  "x402Support": false,
+  "active": true,
+  "registrations": [],
+  "supportedTrust": ["tee-attestation"]
+}
