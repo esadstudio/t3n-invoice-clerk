@@ -23,16 +23,15 @@ Scaffold is ready to merge to `main`. `npm install` succeeds. Quickstart matches
 
    ```bash
    npm install
+   npm run check:trust
    npx tsx src/quickstart.ts
    ```
 
-   CI must **not** run Quickstart (no live T3N handshake). Use `npm run typecheck` / `npm run ci`.
-
-   If live Quickstart dies on `Trust manifest … is malformed`, see [BUGS.md](BUGS.md). Official default stays `fetchTrustedManifest("testnet")`. Local/debug only: `T3N_UNSAFE_TRUST=1`. Never default.
+   CI runs typecheck + card-size + official `check:trust` (public manifest only). Do **not** run Quickstart in CI. SDK is pinned to **5.2.0** so official trust works. Leave `T3N_UNSAFE_TRUST` unset for Earn. See [BUGS.md](BUGS.md).
 
 3. Expect `Connected as: did:t3n:…`.
-4. Optional: follow `src/register-agent.md` (whoami → create-card → host-card `--env testnet`).
-5. Earn form: paste `T3N_DID` `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` — see [docs/EARN.md](EARN.md). Do not require it in runtime code.
+4. Agent card: [src/register-agent.md](../src/register-agent.md) — `npm run whoami` → create-card → host-card `--env testnet`. Use local `t3n`, not unpinned `npx @terminal3/t3n-sdk`.
+5. Earn form: paste `T3N_DID` `did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9` — see [EARN.md](EARN.md). Do **not** Earn-submit until official-trust screenshots exist.
 
 ## Files
 

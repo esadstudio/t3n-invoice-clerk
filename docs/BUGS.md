@@ -2,28 +2,52 @@
 
 Checked against official Terminal 3 docs and this scaffold. Say so plainly when something is a platform issue — do not invent a fix.
 
+## Sponsor-known: trust-manifest vs SDK ≥ 5.3.0
+
+**Status: official Earn path is green on pinned `@terminal3/t3n-sdk@5.2.0`.** Newer SDKs are a sponsor/API mismatch — do not use them for Earn until the cluster republishes the field below.
+
+| | |
+| --- | --- |
+| Symptom | `Error: Trust manifest at https://cn-api.sg.testnet.t3n.terminal3.io/api/trust-manifest is malformed.` from `fetchTrustedManifest("testnet")` |
+| URL | https://cn-api.sg.testnet.t3n.terminal3.io/api/trust-manifest |
+| Live body (2026-09-09) | HTTP 200 JSON: `cluster`, `version`, `peer_ids`, `rtmr3_allowlist`, `signed_at`, `signature` |
+| Missing field | **`rtmr1_allowlist`** (required, non-empty, on SDK `SignedTrustManifest` / `TrustAnchor` since 5.3.0 — SP-003) |
+| Not the cause | Bad `T3N_API_KEY`, network 4xx, or unsigned empty body |
+
+### Version matrix (live manifest, `fetchTrustedManifest("testnet")` only — no handshake)
+
+| `@terminal3/t3n-sdk` | Result |
+| --- | --- |
+| 4.46.0, 5.0.0, 5.1.0, **5.2.0** | OK — returns `expected_peer_ids` + `rtmr3_allowlist` |
+| 5.3.0, 5.4.0, 5.5.0, 5.8.0, 5.10.0–5.14.0 (latest) | throws `… is malformed.` |
+
+This repo **pins `5.2.0` exactly** so the official Quickstart / Earn path does **not** need `T3N_UNSAFE_TRUST`. `npm run check:trust` re-verifies the official fetch.
+
+When the sponsor republishes a signed manifest that includes `rtmr1_allowlist`, bump the SDK and drop the pin. Until then, `npx @terminal3/t3n-sdk` (unpinned latest) will fail — use `npm exec -- t3n` / `npm run whoami`.
+
+`T3N_UNSAFE_TRUST=1` → `{ unsafe_trust_server: true }` remains **opt-in local/debug only**. Never default. Never Earn. Never CI. Never a silent `catch`. Docs: [Verify the trust anchor](https://docs.terminal3.io/developers/adk/tips/verify-trust-anchor). Report cluster drift to `devrel@terminal3.io` / [developer Telegram](https://t.me/terminal3developer).
+
 ## This repo (by design)
 
 | Item | Notes |
 | --- | --- |
-| One key | Official [Register a Public Agent](https://docs.terminal3.io/developers/agents/register-agent) and [Invoke](https://docs.terminal3.io/developers/adk/get-started/walkthrough/invoke-contract) describe a **separate** agent key with its own credits. This repo: `T3N_API_KEY` and `AGENT_KEY` are the **same** value in a local `.env`. Do not claim a second key. Never commit `.env`. |
-| `InsufficientCreditError` | Metered calls charge the **calling** DID. With one key, tenant and agent are the same DID, so tenant test credits apply. A key generated outside the claim page starts at zero. |
-| Contract WASM not built | `src/contract/` is a walkthrough stub. `cargo build --target wasm32-wasip2` needs Rust + vendored `wit/deps/` from [Terminal-3/z-tenant-flight](https://github.com/Terminal-3/z-tenant-flight). Host interface versions in the public walkthrough (`@1.2.0` / `@2.2.0`) may differ from the reference repo (`@1.0.0` / `@2.1.0`) — vendor what the **target cluster** provides. |
-| `T3N_DID` unused at runtime | Optional in `.env.example` / [docs/EARN.md](EARN.md). Earn-form reminder only (`did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9`). Quickstart always prints the session DID. Do not treat it as a runtime secret or identity fallback. |
-| `Trust manifest … is malformed` | Live testnet (`GET https://cn-api.sg.testnet.t3n.terminal3.io/api/trust-manifest`) returns HTTP 200 JSON with `cluster`, `version`, `peer_ids`, `rtmr3_allowlist`, `signed_at`, `signature`. `@terminal3/t3n-sdk` 5.14.0 still throws from `fetchTrustedManifest("testnet")` — the client schema now requires a non-empty `rtmr1_allowlist` on `SignedTrustManifest` / `TrustAnchor` (SP-003). The published testnet body has **no** `rtmr1_allowlist`. This is an SDK ↔ cluster schema/signature check, not a bad API key. Official path stays `fetchTrustedManifest("testnet")`. Local/debug only: `T3N_UNSAFE_TRUST=1` → `{ unsafe_trust_server: true }` with a loud warn. Never default, never CI, never a silent `catch`. Track with Terminal 3 (`devrel@terminal3.io` / Telegram). |
+| One key | Official [Register a Public Agent](https://docs.terminal3.io/developers/agents/register-agent) describes a **separate** agent key. This repo: `T3N_API_KEY` and `AGENT_KEY` are the **same** value in a local `.env`. Never commit `.env`. |
+| `InsufficientCreditError` | Metered calls charge the **calling** DID. One key ⇒ same DID as the tenant; claim-page credits apply. |
+| Contract WASM not built | `src/contract/` is a walkthrough stub. Vendor `wit/deps/` from [Terminal-3/z-tenant-flight](https://github.com/Terminal-3/z-tenant-flight) before `wasm32-wasip2` build. |
+| `T3N_DID` unused at runtime | Optional Earn-form reminder (`did:t3n:53a6ae350a77d94b524b7ce345205a7d6afdf7c9`). Session DID from `authenticate()` / `whoami` wins. |
 
 ## Official ADK pitfalls (from the docs)
 
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
 | `Top-level await is currently not supported with the "cjs" output format` | Missing `"type": "module"` | This repo sets it. |
-| `Invalid Ethereum private key` | `T3N_API_KEY` not exported in **this** shell | `export T3N_API_KEY=…` then `npx tsx src/quickstart.ts` |
+| `Invalid Ethereum private key` | `T3N_API_KEY` not exported in **this** shell | Local `.env` or `export T3N_API_KEY=…` |
 | `T3nClient: trustAnchor is required` | Omitted `fetchTrustedManifest` | Already in `src/quickstart.ts` |
-| WASM parse / module-loading under Next, Vite, Webpack | Bundler processes the SDK WASM | Use this plain Node script. Do not move Quickstart into a bundler without an external-packages exception. |
+| WASM parse / module-loading under Next, Vite, Webpack | Bundler processes the SDK WASM | Use this plain Node script. |
 | `tenant not found` | DID was hardcoded or derived | Read `did.value` after `authenticate` |
 | `AccessDenied` on KV | `readers` omitted on `maps.create` | Set `readers` and `writers` to the new `contract_id` |
 | Map path misses | `tenant_did()` used as a string | Hex-encode the raw bytes once |
-| `host/http.egress_denied` | Outbound HTTP without a user grant | Invoice Clerk stub has no HTTP. If you add it, the **data owner** signs `member-delegation-update`. |
+| `host/http.egress_denied` | Outbound HTTP without a user grant | Invoice Clerk stub has no HTTP. |
 | `version is not higher than current version` | Re-register same tail/version | Bump `version` |
 | Generic HTTP 500 | Egress/ACL or platform | Save `request_id`; retry once; then Telegram / `devrel@terminal3.io` |
 

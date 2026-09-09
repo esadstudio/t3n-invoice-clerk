@@ -34,7 +34,7 @@ npx tsx src/quickstart.ts
 
 That script is the official Quickstart: `setEnvironment("testnet")`, `loadWasmComponent`, `fetchTrustedManifest("testnet")`, `eth_get_address`, `metamask_sign`, handshake, authenticate.
 
-If `fetchTrustedManifest` throws `Trust manifest … is malformed` (SDK schema vs current testnet body — see [docs/BUGS.md](docs/BUGS.md)), local/debug only: add `T3N_UNSAFE_TRUST=1` to `.env`. Default stays the official verified manifest. Never set this in CI.
+Official trust is the default (`fetchTrustedManifest("testnet")` on **pinned** `@terminal3/t3n-sdk@5.2.0`). Earn must **not** use `T3N_UNSAFE_TRUST`. Prove the fetch with `npm run check:trust` (no key). SDK 5.3.0+ rejects the live testnet manifest — see [docs/BUGS.md](docs/BUGS.md). Use `npm exec -- t3n` / `npm run whoami`, not unpinned `npx @terminal3/t3n-sdk`.
 
 ### 4. Register the agent (optional)
 

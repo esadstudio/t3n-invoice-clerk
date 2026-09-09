@@ -10,11 +10,13 @@
   "scripts": {
     "quickstart": "tsx src/quickstart.ts",
     "typecheck": "tsc --noEmit",
+    "check:trust": "tsx src/check-trust.ts",
     "check:card": "node --input-type=module -e \"import {statSync} from 'node:fs'; const n=statSync('src/agent/agent-card.json').size; if(n>16384){console.error('agent-card.json is '+n+' bytes (limit 16 KiB)'); process.exit(1);} console.log('agent-card.json '+n+' bytes (<16 KiB)');\"",
-    "ci": "npm run typecheck && npm run check:card"
+    "ci": "npm run typecheck && npm run check:card && npm run check:trust",
+    "whoami": "t3n whoami --env testnet"
   },
   "dependencies": {
-    "@terminal3/t3n-sdk": "^5.14.0"
+    "@terminal3/t3n-sdk": "5.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.3.1",
